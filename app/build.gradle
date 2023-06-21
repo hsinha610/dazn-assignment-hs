@@ -32,6 +32,13 @@ android {
     kotlinOptions {
         jvmTarget = '17'
     }
+    buildFeatures {
+        viewBinding = true
+        compose = true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion '1.4.3'
+    }
 }
 
 dependencies {
@@ -46,4 +53,13 @@ dependencies {
 
     implementation 'com.google.dagger:hilt-android:2.46'
     kapt 'com.google.dagger:hilt-compiler:2.46'
+
+    implementation 'androidx.compose.ui:ui:1.4.3'
+    implementation 'androidx.compose.material:material:1.4.3'
+    implementation 'androidx.compose.ui:ui-tooling:1.4.3'
+    implementation 'androidx.compose.runtime:runtime:1.4.3'
+}
+
+kapt {
+    correctErrorTypes true
 }
