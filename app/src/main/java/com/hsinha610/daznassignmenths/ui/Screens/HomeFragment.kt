@@ -1,4 +1,4 @@
-package com.hsinha610.daznassignmenths
+package com.hsinha610.daznassignmenths.ui.Screens
 
 import android.os.Bundle
 import android.view.LayoutInflater
