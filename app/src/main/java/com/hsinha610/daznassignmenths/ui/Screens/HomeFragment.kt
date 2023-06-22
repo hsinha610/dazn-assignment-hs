@@ -45,7 +45,8 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
 
-    private val viewModel : MainViewModel by activityViewModels()
+    private val viewModel: MainViewModel by activityViewModels()
+
     companion object {
         const val TAG = "HomeFragment"
         fun newInstance() = HomeFragment()
@@ -64,10 +65,6 @@ class HomeFragment : Fragment() {
 
     @Composable
     fun UI() {
-        LaunchedEffect(key1 = Unit) {
-            viewModel.getData()
-        }
-
         val uiState by viewModel.ld.observeAsState()
         when (uiState) {
             is UiState.Loading -> {
@@ -89,6 +86,7 @@ class HomeFragment : Fragment() {
             }
         }
     }
+
     @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
     @Composable
     fun HomeScreen(dataList: DataList) {
@@ -97,7 +95,7 @@ class HomeFragment : Fragment() {
             LazyColumn(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(12.dp)
+                    .padding(12.dp, 12.dp, 12.dp, 0.dp)
             ) {
                 itemsIndexed(
                     dataList.list,
