@@ -5,7 +5,7 @@ App which displays list of image + name of different cosmic bodies by NASA from 
 ## Project overview
 - Project follows **MVVM Architecture + Hilt**.
 - App code is divided into 2 parts.
-    - data : contains Repository & Data classes & hilt module
+    - data : contains Repository, Data classes & hilt module
     - ui : contains Activity, Fragment, ViewModel, Custom Theme & CommonComposables.
 - Tests for compose screens are present in androidTest module:-
     - HomeScreenTest.kt
