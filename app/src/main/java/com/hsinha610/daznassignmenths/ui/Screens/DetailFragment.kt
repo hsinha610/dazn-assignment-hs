@@ -8,10 +8,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.pager.HorizontalPager
@@ -27,6 +29,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -142,17 +145,32 @@ class DetailFragment : Fragment() {
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState())
         ) {
-            AsyncImage(
-                model = ImageRequest.Builder(LocalContext.current)
-                    .data(item.url)
-                    .crossfade(true)
-                    .build(), contentDescription = "image", modifier = Modifier
+            Box(
+                modifier = Modifier
                     .clip(
                         RoundedCornerShape(12.dp)
                     )
                     .weight(1f)
-                    .background(Color.Transparent), contentScale = ContentScale.Crop
-            )
+            ) {
+                AsyncImage(
+                    model = ImageRequest.Builder(LocalContext.current)
+                        .data(item.url)
+                        .crossfade(true)
+                        .build(), contentDescription = "image", modifier = Modifier
+                        .fillMaxSize()
+                        .clip(
+                            RoundedCornerShape(12.dp)
+                        )
+                        .background(Color.Transparent), contentScale = ContentScale.Crop
+                )
+                Text(
+                    text = item.date, color = Color(0xAAF84C16), modifier = Modifier
+                        .align(
+                            Alignment.BottomCenter
+                        )
+                        .padding(6.dp)
+                )
+            }
             Text(
                 item.title,
                 textAlign = TextAlign.Center,
@@ -161,24 +179,14 @@ class DetailFragment : Fragment() {
                 fontSize = 22.sp
             )
             LazyColumn(modifier = Modifier.weight(1f)) {
-//                item {
-//                    Text(
-//                        item.title,
-//                        textAlign = TextAlign.Center,
-//                        modifier = Modifier.fillMaxWidth(),
-//                        style = TextStyle(fontWeight = FontWeight.Bold),
-//                        fontSize = 22.sp
-//                    )
-//                }
                 item {
                     Text(
                         item.explanation, textAlign = TextAlign.Center,
-                        modifier = Modifier.fillMaxWidth()
+                        modifier = Modifier.fillMaxWidth(), letterSpacing = 2.sp, lineHeight = 24.sp
                     )
                 }
             }
         }
-
     }
 
 
