@@ -32,6 +32,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -40,6 +41,7 @@ import androidx.compose.ui.unit.sp
 import androidx.fragment.app.activityViewModels
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import com.hsinha610.daznassignmenths.R
 import com.hsinha610.daznassignmenths.data.models.DataList
 import com.hsinha610.daznassignmenths.data.models.DataListItem
 import com.hsinha610.daznassignmenths.ui.base.ErrorScreen
@@ -156,7 +158,9 @@ class DetailFragment : Fragment() {
                         .clip(
                             RoundedCornerShape(12.dp)
                         )
-                        .background(Color.Transparent), contentScale = ContentScale.Crop
+                        .background(Color.Transparent), contentScale = ContentScale.Crop,
+                    error = painterResource(id = R.drawable.no_wifi),
+                    fallback = painterResource(id = R.drawable.fallback_image)
                 )
                 Text(
                     text = item.date, color = Color(0xAAF84C16), modifier = Modifier

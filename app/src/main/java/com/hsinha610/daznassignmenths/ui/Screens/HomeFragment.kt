@@ -26,12 +26,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import com.hsinha610.daznassignmenths.R
 import com.hsinha610.daznassignmenths.data.models.DataList
 import com.hsinha610.daznassignmenths.data.models.DataListItem
 import com.hsinha610.daznassignmenths.ui.base.ErrorScreen
@@ -98,11 +100,13 @@ class HomeFragment : Fragment() {
             LazyColumn(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(12.dp, 12.dp, 12.dp, 0.dp)
+                    .padding(12.dp, 0.dp, 12.dp, 0.dp)
             ) {
                 itemsIndexed(
                     dataList.list,
                     key = { _, item -> item.url }) { index, item ->
+                    if(index==0)
+                        Spacer(modifier = Modifier.height(12.dp))
                     ListItem(index, item)
                     Spacer(modifier = Modifier.height(12.dp))
                 }
@@ -121,10 +125,12 @@ class HomeFragment : Fragment() {
                     .data(item.url)
                     .crossfade(true)
                     .build(), contentDescription = "image", modifier = Modifier
-                    .size(60.dp)
+                    .size(80.dp)
                     .clip(
                         RoundedCornerShape(12.dp)
-                    ), contentScale = ContentScale.Crop
+                    ), contentScale = ContentScale.Crop,
+                error = painterResource(id = R.drawable.no_wifi),
+                fallback = painterResource(id = R.drawable.fallback_image)
             )
             Text(
                 item.title, textAlign = TextAlign.Start, modifier = Modifier
