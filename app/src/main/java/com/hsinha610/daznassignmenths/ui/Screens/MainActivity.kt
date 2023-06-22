@@ -19,14 +19,10 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        initData()
         initHomeFragment()
         initViewModelObservers()
     }
 
-    private fun initData(){
-        viewmodel.getData()
-    }
     private fun initHomeFragment() {
         val homeFragment = HomeFragment.newInstance()
         supportFragmentManager.beginTransaction().apply {

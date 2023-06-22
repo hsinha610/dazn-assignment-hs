@@ -65,6 +65,9 @@ class HomeFragment : Fragment() {
 
     @Composable
     fun UI() {
+        LaunchedEffect(key1 = Unit, block = {
+            viewModel.getData()
+        })
         val uiState by viewModel.ld.observeAsState()
         when (uiState) {
             is UiState.Loading -> {
