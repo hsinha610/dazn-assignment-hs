@@ -16,5 +16,5 @@ fun CustomAppTheme(content: @Composable () -> Unit) {
     }
 }
 
-val DarkThemeColors = darkColors(surface = Color(0xFF1F1E1E), background = Color(0xFF1F1E1E))
+val DarkThemeColors = darkColors(surface = darkGrey, background = darkGrey)
 val LightThemeColors = lightColors()
