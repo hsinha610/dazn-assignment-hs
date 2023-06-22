@@ -5,6 +5,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.darkColors
 import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
 
 @Composable
 fun CustomAppTheme(content: @Composable () -> Unit) {
@@ -15,5 +16,5 @@ fun CustomAppTheme(content: @Composable () -> Unit) {
     }
 }
 
-val DarkThemeColors = darkColors()
+val DarkThemeColors = darkColors(surface = Color(0xFF1F1E1E), background = Color(0xFF1F1E1E))
 val LightThemeColors = lightColors()
