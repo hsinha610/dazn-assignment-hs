@@ -1,8 +1,7 @@
-package com.hsinha610.daznassignmenths.ui.Screens
+package com.hsinha610.daznassignmenths.ui.screens
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.text.TextUtils.replace
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup

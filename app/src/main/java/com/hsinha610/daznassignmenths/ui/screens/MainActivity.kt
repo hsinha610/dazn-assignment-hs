@@ -1,9 +1,8 @@
-package com.hsinha610.daznassignmenths.ui.Screens
+package com.hsinha610.daznassignmenths.ui.screens
 
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.hsinha610.daznassignmenths.databinding.ActivityMainBinding
 import com.hsinha610.daznassignmenths.ui.viewmodel.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint

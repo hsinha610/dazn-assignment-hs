@@ -1,4 +1,4 @@
-package com.hsinha610.daznassignmenths.ui.Screens
+package com.hsinha610.daznassignmenths.ui.screens
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

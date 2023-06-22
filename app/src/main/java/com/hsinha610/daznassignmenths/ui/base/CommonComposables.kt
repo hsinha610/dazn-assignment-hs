@@ -25,6 +25,7 @@ fun FragmentComposeView(context: Context, Ui: @Composable () -> Unit): ComposeVi
     }
 }
 
+
 @Composable
 fun LoadingScreen() {
     Box(modifier = Modifier.fillMaxSize()) {
