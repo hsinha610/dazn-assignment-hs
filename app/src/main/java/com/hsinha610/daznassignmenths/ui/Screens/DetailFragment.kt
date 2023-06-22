@@ -102,7 +102,7 @@ class DetailFragment : Fragment() {
 
             is UiState.Success -> {
                 (uiState as UiState.Success).data?.let {
-                    DetailScreen(it)
+                    DetailScreen(it,selectedItemIndex)
                 }
             }
 
@@ -111,82 +111,81 @@ class DetailFragment : Fragment() {
             }
         }
     }
+}
 
-    @OptIn(ExperimentalFoundationApi::class)
-    @Composable
-    fun DetailScreen(dataList: DataList) {
-        val pagerState = rememberPagerState(initialPage = selectedItemIndex)
 
-        val list by remember {
-            mutableStateOf(dataList.list)
-        }
+@OptIn(ExperimentalFoundationApi::class)
+@Composable
+fun DetailScreen(dataList: DataList, selectedItemIndex: Int) {
+    val pagerState = rememberPagerState(initialPage = selectedItemIndex)
 
-        Surface {
-            HorizontalPager(
-                state = pagerState,
-                pageCount = list.size,
-                modifier = Modifier.fillMaxSize(),
-                pageSpacing = 10.dp,
-                contentPadding = PaddingValues(6.dp, 6.dp, 6.dp, 0.dp)
-            ) { pageNo ->
-                val item = list[pageNo]
-                DetailPage(item)
-            }
-        }
+    val list by remember {
+        mutableStateOf(dataList.list)
     }
 
-    @Composable
-    fun DetailPage(item: DataListItem) {
-        Column(
+    Surface {
+        HorizontalPager(
+            state = pagerState,
+            pageCount = list.size,
+            modifier = Modifier.fillMaxSize(),
+            pageSpacing = 10.dp,
+            contentPadding = PaddingValues(6.dp, 6.dp, 6.dp, 0.dp)
+        ) { pageNo ->
+            val item = list[pageNo]
+            DetailPage(item)
+        }
+    }
+}
+
+@Composable
+fun DetailPage(item: DataListItem) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState())
+    ) {
+        Box(
             modifier = Modifier
-                .fillMaxSize()
-                .verticalScroll(rememberScrollState())
+                .clip(
+                    RoundedCornerShape(12.dp)
+                )
+                .weight(1f)
         ) {
-            Box(
-                modifier = Modifier
+            AsyncImage(
+                model = ImageRequest.Builder(LocalContext.current)
+                    .data(item.url)
+                    .crossfade(true)
+                    .build(), contentDescription = "image", modifier = Modifier
+                    .fillMaxSize()
                     .clip(
                         RoundedCornerShape(12.dp)
                     )
-                    .weight(1f)
-            ) {
-                AsyncImage(
-                    model = ImageRequest.Builder(LocalContext.current)
-                        .data(item.url)
-                        .crossfade(true)
-                        .build(), contentDescription = "image", modifier = Modifier
-                        .fillMaxSize()
-                        .clip(
-                            RoundedCornerShape(12.dp)
-                        )
-                        .background(Color.Transparent), contentScale = ContentScale.Crop,
-                    error = painterResource(id = R.drawable.no_wifi),
-                    fallback = painterResource(id = R.drawable.fallback_image)
-                )
-                Text(
-                    text = item.date, color = Color(0xAAF84C16), modifier = Modifier
-                        .align(
-                            Alignment.BottomCenter
-                        )
-                        .padding(6.dp)
-                )
-            }
-            Text(
-                item.title,
-                textAlign = TextAlign.Center,
-                modifier = Modifier.fillMaxWidth(),
-                style = TextStyle(fontWeight = FontWeight.Bold),
-                fontSize = 22.sp
+                    .background(Color.Transparent), contentScale = ContentScale.Crop,
+                error = painterResource(id = R.drawable.no_wifi),
+                fallback = painterResource(id = R.drawable.fallback_image)
             )
-            LazyColumn(modifier = Modifier.weight(1f)) {
-                item {
-                    Text(
-                        item.explanation, textAlign = TextAlign.Center,
-                        modifier = Modifier.fillMaxWidth(), letterSpacing = 2.sp, lineHeight = 24.sp
+            Text(
+                text = item.date, color = Color(0xAAF84C16), modifier = Modifier
+                    .align(
+                        Alignment.BottomCenter
                     )
-                }
+                    .padding(6.dp)
+            )
+        }
+        Text(
+            item.title,
+            textAlign = TextAlign.Center,
+            modifier = Modifier.fillMaxWidth(),
+            style = TextStyle(fontWeight = FontWeight.Bold),
+            fontSize = 22.sp
+        )
+        LazyColumn(modifier = Modifier.weight(1f)) {
+            item {
+                Text(
+                    item.explanation, textAlign = TextAlign.Center,
+                    modifier = Modifier.fillMaxWidth(), letterSpacing = 2.sp, lineHeight = 24.sp
+                )
             }
         }
     }
-
-
 }

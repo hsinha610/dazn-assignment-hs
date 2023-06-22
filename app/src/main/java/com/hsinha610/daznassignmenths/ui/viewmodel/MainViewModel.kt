@@ -28,13 +28,6 @@ class MainViewModel @Inject constructor(private val repo: Repository) : ViewMode
             }
         }
     }
-
-    private val _openDetailFragmentMLD = MutableLiveData<Int>(null)
-    val openDetailFragmentLD: LiveData<Int>
-        get() = _openDetailFragmentMLD
-    fun openDetailFragment(itemIndex: Int) {
-        _openDetailFragmentMLD.value = itemIndex
-    }
 }
 
 sealed class UiState {

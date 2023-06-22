@@ -2,6 +2,7 @@ package com.hsinha610.daznassignmenths.ui.Screens
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.text.TextUtils.replace
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -26,6 +27,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -82,7 +84,9 @@ class HomeFragment : Fragment() {
 
             is UiState.Success -> {
                 (uiState as UiState.Success).data?.let {
-                    HomeScreen(dataList = it)
+                    HomeScreen(dataList = it, onClick = { selectedItemIndex : Int->
+                        openDetailFragment(selectedItemIndex = selectedItemIndex)
+                    })
                 }
             }
 
@@ -92,52 +96,65 @@ class HomeFragment : Fragment() {
         }
     }
 
-    @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
-    @Composable
-    fun HomeScreen(dataList: DataList) {
 
-        Scaffold(modifier = Modifier.fillMaxSize()) {
-            LazyColumn(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(12.dp, 0.dp, 12.dp, 0.dp)
-            ) {
-                itemsIndexed(
-                    dataList.list,
-                    key = { _, item -> item.url }) { index, item ->
-                    if(index==0)
-                        Spacer(modifier = Modifier.height(12.dp))
-                    ListItem(index, item)
+
+    private fun openDetailFragment(selectedItemIndex: Int) {
+        val detailFragment =
+            DetailFragment.newInstance(selectedItemIndex = selectedItemIndex)
+        activity?.supportFragmentManager?.beginTransaction()?.apply {
+            addToBackStack(DetailFragment.TAG)
+            replace(R.id.fragment_container_view_tag, detailFragment)
+            commit()
+        }
+    }
+}
+
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
+@Composable
+fun HomeScreen(dataList: DataList, onClick: ((Int)->Unit)?) {
+
+    Scaffold(modifier = Modifier.fillMaxSize()) {
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(12.dp, 0.dp, 12.dp, 0.dp)
+        ) {
+            itemsIndexed(
+                dataList.list,
+                key = { _, item -> item.url }) { index, item ->
+                if(index==0)
                     Spacer(modifier = Modifier.height(12.dp))
-                }
+                ListItem(index, item,onClick)
+                Spacer(modifier = Modifier.height(12.dp))
             }
         }
     }
+}
 
-    @Composable
-    fun ListItem(index: Int, item: DataListItem) {
+@Composable
+fun ListItem(index: Int, item: DataListItem, onClick: ((Int) -> Unit)?) {
 
-        Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.clickable {
-            viewModel.openDetailFragment(itemIndex = index)
-        }) {
-            AsyncImage(
-                model = ImageRequest.Builder(LocalContext.current)
-                    .data(item.url)
-                    .crossfade(true)
-                    .build(), contentDescription = "image", modifier = Modifier
-                    .size(80.dp)
-                    .clip(
-                        RoundedCornerShape(12.dp)
-                    ), contentScale = ContentScale.Crop,
-                error = painterResource(id = R.drawable.no_wifi),
-                fallback = painterResource(id = R.drawable.fallback_image)
-            )
-            Text(
-                item.title, textAlign = TextAlign.Start, modifier = Modifier
-                    .padding(12.dp)
-                    .weight(1f)
-            )
-        }
+    Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.clickable {
+        onClick?.invoke(index)
+    }) {
+        AsyncImage(
+            model = ImageRequest.Builder(LocalContext.current)
+                .data(item.url)
+                .crossfade(true)
+                .build(), contentDescription = "image",
+            modifier = Modifier
+                .size(80.dp)
+                .clip(
+                    RoundedCornerShape(12.dp)
+                ).testTag("homeScreenImageTestTag"), contentScale = ContentScale.Crop,
+            error = painterResource(id = R.drawable.no_wifi),
+            fallback = painterResource(id = R.drawable.fallback_image)
+        )
+        Text(
+            item.title, textAlign = TextAlign.Start, modifier = Modifier
+                .padding(12.dp)
+                .weight(1f)
+        )
     }
 }
 

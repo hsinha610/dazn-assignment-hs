@@ -20,7 +20,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         initHomeFragment()
-        initViewModelObservers()
     }
 
     private fun initHomeFragment() {
@@ -31,21 +30,5 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun initViewModelObservers() {
-        viewmodel.openDetailFragmentLD.observe(this) { selectedItemIndex ->
-            selectedItemIndex?.let {
-                openDetailFragment(selectedItemIndex)
-            }
-        }
-    }
 
-    private fun openDetailFragment(selectedItemIndex: Int) {
-        val detailFragment =
-            DetailFragment.newInstance(selectedItemIndex = selectedItemIndex)
-        supportFragmentManager.beginTransaction().apply {
-            addToBackStack(DetailFragment.TAG)
-            replace(binding.fragmentContainerViewTag.id, detailFragment)
-            commit()
-        }
-    }
 }
