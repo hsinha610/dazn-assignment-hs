@@ -7,10 +7,12 @@ App which displays list of image + name of different cosmic bodies by NASA from 
 - App code is divided into 2 parts.
     - data : contains Repository & Data classes & hilt module
     - ui : contains Activity, Fragment, ViewModel, Custom Theme & CommonComposables.
-- Tests for compose screens are present in androidTest module:- HomeScreenTest.kt & DetailScreenTest.kt
+- Tests for compose screens are present in androidTest module:-
+    - HomeScreenTest.kt
+    - DetailScreenTest.kt
 
-[<img src="" width="50%">](https://github.com/hsinha610/Screenshots/blob/main/Dazn-Assignment-Video.mp4
- "DAZN assignment app")
+
+https://github.com/hsinha610/dazn-assignment-hs/assets/47042785/b3d1243b-8529-45a4-b179-37fabd695fa3
 
 ## Libraries used
 
