@@ -29,6 +29,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
@@ -43,7 +44,10 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
+
+    private val viewModel : MainViewModel by activityViewModels()
     companion object {
+        const val TAG = "HomeFragment"
         fun newInstance() = HomeFragment()
     }
 
@@ -59,7 +63,7 @@ class HomeFragment : Fragment() {
     }
 
     @Composable
-    fun UI(viewModel: MainViewModel = viewModel()) {
+    fun UI() {
         LaunchedEffect(key1 = Unit) {
             viewModel.getData()
         }
@@ -71,7 +75,7 @@ class HomeFragment : Fragment() {
             }
 
             is UiState.Error -> {
-                ErrorScreen(error = (uiState as UiState.Error).error?.message ?: "")
+                ErrorScreen(error = (uiState as UiState.Error).error.message ?: "")
             }
 
             is UiState.Success -> {
@@ -85,48 +89,49 @@ class HomeFragment : Fragment() {
             }
         }
     }
-}
+    @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
+    @Composable
+    fun HomeScreen(dataList: DataList) {
 
-
-@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
-@Composable
-fun HomeScreen(dataList: DataList) {
-
-    Scaffold(modifier = Modifier.fillMaxSize()) {
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(12.dp)
-        ) {
-            itemsIndexed(
-                dataList.list,
-                key = { _, item -> item.url }) { index, item ->
-                ListItem(index, item)
-                Spacer(modifier = Modifier.height(12.dp))
+        Scaffold(modifier = Modifier.fillMaxSize()) {
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(12.dp)
+            ) {
+                itemsIndexed(
+                    dataList.list,
+                    key = { _, item -> item.url }) { index, item ->
+                    ListItem(index, item)
+                    Spacer(modifier = Modifier.height(12.dp))
+                }
             }
+        }
+    }
+
+    @Composable
+    fun ListItem(index: Int, item: DataListItem) {
+
+        Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.clickable {
+            viewModel.openDetailFragment(itemIndex = index)
+        }) {
+            AsyncImage(
+                model = ImageRequest.Builder(LocalContext.current)
+                    .data(item.url)
+                    .crossfade(true)
+                    .build(), contentDescription = "image", modifier = Modifier
+                    .size(60.dp)
+                    .clip(
+                        RoundedCornerShape(12.dp)
+                    ), contentScale = ContentScale.Crop
+            )
+            Text(
+                item.title, textAlign = TextAlign.Start, modifier = Modifier
+                    .padding(12.dp)
+                    .weight(1f)
+            )
         }
     }
 }
 
-@Composable
-fun ListItem(index: Int, item: DataListItem, viewModel: MainViewModel = viewModel()) {
-    Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.clickable {
-        viewModel.openDetailFragment(itemIndex = index)
-    }) {
-        AsyncImage(
-            model = ImageRequest.Builder(LocalContext.current)
-                .data(item.url)
-                .crossfade(true)
-                .build(), contentDescription = "image", modifier = Modifier
-                .size(60.dp)
-                .clip(
-                    RoundedCornerShape(12.dp)
-                ), contentScale = ContentScale.Crop
-        )
-        Text(
-            item.title, textAlign = TextAlign.Start, modifier = Modifier
-                .padding(12.dp)
-                .weight(1f)
-        )
-    }
-}
+
