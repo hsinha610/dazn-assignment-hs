@@ -1,4 +1,4 @@
-package com.hsinha610.daznassignmenths.ui
+package com.hsinha610.daznassignmenths.ui.base
 
 import android.content.Context
 import androidx.compose.foundation.layout.Box

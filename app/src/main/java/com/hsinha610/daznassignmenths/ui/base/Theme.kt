@@ -1,4 +1,4 @@
-package com.hsinha610.daznassignmenths.ui
+package com.hsinha610.daznassignmenths.ui.base
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.MaterialTheme
