@@ -4,8 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.hsinha610.daznassignmenths.data.DataList
-import com.hsinha610.daznassignmenths.data.Repository
+import com.hsinha610.daznassignmenths.data.models.DataList
+import com.hsinha610.daznassignmenths.data.repo.Repository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -13,18 +13,18 @@ import javax.inject.Inject
 @HiltViewModel
 class MainViewModel @Inject constructor(private val repo: Repository) : ViewModel() {
 
-    private val _mld = MutableLiveData<UiState>(UiState.Loading)
-    val ld: LiveData<UiState>
-        get() = _mld
+    private val _dataMld = MutableLiveData<UiState>(UiState.Loading)
+    val dataLd: LiveData<UiState>
+        get() = _dataMld
 
     fun getData() {
         viewModelScope.launch {
-            _mld.value = UiState.Loading
+            _dataMld.value = UiState.Loading
             try {
                 val data = repo.getData()
-                _mld.value = UiState.Success(data)
+                _dataMld.value = UiState.Success(data)
             } catch (e: Exception) {
-                _mld.value = UiState.Error(e)
+                _dataMld.value = UiState.Error(e)
             }
         }
     }

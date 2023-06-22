@@ -1,4 +1,4 @@
-package com.hsinha610.daznassignmenths.data
+package com.hsinha610.daznassignmenths.data.models
 
 import com.google.gson.annotations.SerializedName
 

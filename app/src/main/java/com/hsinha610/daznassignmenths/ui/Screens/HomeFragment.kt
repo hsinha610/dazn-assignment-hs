@@ -30,11 +30,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import com.hsinha610.daznassignmenths.data.DataList
-import com.hsinha610.daznassignmenths.data.DataListItem
+import com.hsinha610.daznassignmenths.data.models.DataList
+import com.hsinha610.daznassignmenths.data.models.DataListItem
 import com.hsinha610.daznassignmenths.ui.ErrorScreen
 import com.hsinha610.daznassignmenths.ui.FragmentComposeView
 import com.hsinha610.daznassignmenths.ui.LoadingScreen
@@ -66,9 +65,10 @@ class HomeFragment : Fragment() {
     @Composable
     fun UI() {
         LaunchedEffect(key1 = Unit, block = {
-            viewModel.getData()
+            if (viewModel.dataLd.value == UiState.Loading)
+                viewModel.getData()
         })
-        val uiState by viewModel.ld.observeAsState()
+        val uiState by viewModel.dataLd.observeAsState()
         when (uiState) {
             is UiState.Loading -> {
                 LoadingScreen()
